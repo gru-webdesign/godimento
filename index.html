@@ -29,12 +29,12 @@
   --green:#85c227; --red:#d9301c; --red-hover:#ea3d27; --yellow:#ffd400;
   --f-display:"Bricolage Grotesque", "Arial Narrow", Arial, sans-serif;
   --f-body:"Onest", Helvetica, Arial, sans-serif;
-  --r:14px; --nav-h:68px;
+  --r:14px; --nav-h:68px; --bar-h:0px; --head-h:calc(var(--nav-h) + var(--bar-h));
   --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 12px)}
+html{scroll-behavior:smooth; scroll-padding-top:calc(var(--head-h) + 12px)}
 body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden}
 body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:var(--bg)}
 img{max-width:100%; display:block}
@@ -57,11 +57,25 @@ p{margin:0}
 .nav{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:rgba(11,11,11,.9); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line)}
 .nav .wrap{height:var(--nav-h); display:flex; align-items:center; gap:20px}
 .brand img{width:50px; height:50px}
-.nav ul{display:flex; gap:2px; list-style:none; margin:0 0 0 auto; padding:0}
-.nav ul a{display:block; padding:8px 12px; text-decoration:none; font-weight:500; font-size:15px; color:var(--muted); border-radius:8px; transition:color .2s}
-.nav ul a:hover{color:var(--ink)}
+.nav .wrap ul{display:flex; gap:2px; list-style:none; margin:0 0 0 auto; padding:0}
+.nav .wrap ul a{display:block; padding:8px 12px; text-decoration:none; font-weight:500; font-size:15px; color:var(--muted); border-radius:8px; transition:color .2s}
+.nav .wrap ul a:hover{color:var(--ink)}
+.nav .wrap ul a.on{color:var(--ink); background:var(--surface-2)}
+/* Traka sekcija, samo telefon */
+.secbar{display:none}
+@media (max-width:900px){
+  :root{--bar-h:52px}
+  .secbar{display:block; height:var(--bar-h); border-top:1px solid var(--line)}
+  .secbar ul{display:flex; gap:6px; list-style:none; margin:0; height:100%; align-items:center; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; padding:0 var(--gr) 0 var(--gl); scroll-padding:0 var(--gl);
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  .secbar ul::-webkit-scrollbar{display:none}
+  .secbar li{flex:none}
+  .secbar a{display:flex; align-items:center; height:36px; padding:0 14px; border-radius:8px; text-decoration:none; font-weight:600; font-size:15px; color:var(--muted); background:var(--surface); border:1px solid var(--line); -webkit-tap-highlight-color:transparent; transition:background-color .25s, color .25s, border-color .25s}
+  .secbar a.on{background:var(--red); border-color:var(--red); color:#fff}
+  .secbar li:last-child{padding-right:20px}
+}
 .nav .btn{height:42px; padding:0 16px; font-size:15px}
-@media (max-width:900px){ .nav ul{display:none} .nav .btn{margin-left:auto} }
+@media (max-width:900px){ .nav .wrap ul{display:none} .nav .btn{margin-left:auto} }
 
 /* Hero */
 .hero .wrap{display:grid; grid-template-columns:1fr 1.05fr; gap:52px; align-items:center; padding-block:56px 64px}
@@ -118,7 +132,7 @@ p{margin:0}
 @media (max-width:1080px){ .pz-list{grid-template-columns:1fr} }
 @media (max-width:820px){
   .pizza-grid{grid-template-columns:1fr; gap:24px}
-  .size-panel{top:calc(var(--nav-h) + env(safe-area-inset-top,0px) + 8px); z-index:5; padding:10px}
+  .size-panel{top:calc(var(--head-h) + env(safe-area-inset-top,0px) + 8px); z-index:5; padding:10px}
   .size-panel h3,.dial,.size-note{display:none}
 }
 
@@ -164,7 +178,7 @@ p{margin:0}
 .jam{margin-top:14px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:16px}
 .jam span{color:var(--muted)}
 .jam strong.num{font:800 24px var(--f-display); white-space:nowrap}
-.crepe-photo{border-radius:var(--r); overflow:hidden; aspect-ratio:4/5; background:var(--surface); position:sticky; top:calc(var(--nav-h) + 24px)}
+.crepe-photo{border-radius:var(--r); overflow:hidden; aspect-ratio:4/5; background:var(--surface); position:sticky; top:calc(var(--head-h) + 24px)}
 .crepe-photo img{width:100%; height:100%; object-fit:cover}
 .drinks{margin-top:22px; color:var(--muted)}
 .drinks strong{color:var(--ink)}
@@ -226,10 +240,17 @@ footer nav a:hover{color:var(--ink)}
       <li><a href="#sendvici">Sendviči</a></li>
       <li><a href="#tortilje">Tortilje</a></li>
       <li><a href="#palacinke">Palačinke</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="#kontakt">Lokacija</a></li>
     </ul></nav>
     <a class="btn btn-red" href="tel:+381644278851">064/427 88 51</a>
   </div>
+  <nav class="secbar" aria-label="Sekcije jelovnika"><ul>
+    <li><a href="#pizza">Pizza</a></li>
+    <li><a href="#sendvici">Sendviči</a></li>
+    <li><a href="#tortilje">Tortilje</a></li>
+    <li><a href="#palacinke">Palačinke</a></li>
+    <li><a href="#kontakt">Lokacija</a></li>
+  </ul></nav>
 </header>
 
 <main>
@@ -421,7 +442,7 @@ footer nav a:hover{color:var(--ink)}
 
 <footer>
   <div class="wrap">
-    <nav aria-label="Podnožje"><a href="#pizza">Pizza</a><a href="#sendvici">Sendviči</a><a href="#tortilje">Tortilje</a><a href="#palacinke">Palačinke</a><a href="#kontakt">Kontakt</a></nav>
+    <nav aria-label="Podnožje"><a href="#pizza">Pizza</a><a href="#sendvici">Sendviči</a><a href="#tortilje">Tortilje</a><a href="#palacinke">Palačinke</a><a href="#kontakt">Lokacija</a></nav>
     <p>Godimento Beograd ™. Sva prava zadržana.</p>
   </div>
 </footer>
@@ -489,6 +510,47 @@ footer nav a:hover{color:var(--ink)}
   }
   document.querySelectorAll(".seg input").forEach(function(inp){
     inp.addEventListener("change", function(){ setSize(+inp.value); });
+  });
+
+  /* Aktivna sekcija u meniju i traci */
+  var SPY = ["pizza", "sendvici", "tortilje", "palacinke", "kontakt"];
+  var bar = document.querySelector(".secbar ul");
+  var navLinks = [].slice.call(document.querySelectorAll('.nav ul a, .secbar a'));
+  var visible = {};
+  var current = null;
+  function setActive(id){
+    if (id === current) return;
+    current = id;
+    navLinks.forEach(function(a){
+      var on = a.getAttribute("href") === "#" + id;
+      a.classList.toggle("on", on);
+      if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+    });
+    var chip = id && bar ? bar.querySelector('a[href="#' + id + '"]') : null;
+    if (chip && bar.offsetParent){
+      var left = chip.parentNode.offsetLeft - 16;
+      if (anim) gsap.to(bar, {scrollLeft: left, duration: .45, ease: "power2.out", overwrite: true});
+      else bar.scrollLeft = left;
+    }
+  }
+  if ("IntersectionObserver" in window){
+    var headH = function(){ return document.querySelector(".nav").offsetHeight; };
+    var io;
+    var watch = function(){
+      if (io) io.disconnect();
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ visible[e.target.id] = e.isIntersecting; });
+        var pick = null;
+        SPY.forEach(function(id){ if (visible[id]) pick = id; });
+        setActive(pick);
+      }, {rootMargin: "-" + (headH() + 1) + "px 0px -60% 0px"});
+      SPY.forEach(function(id){ var el = document.getElementById(id); if (el) io.observe(el); });
+    };
+    watch();
+    window.addEventListener("resize", function(){ clearTimeout(watch.t); watch.t = setTimeout(watch, 200); });
+  }
+  navLinks.forEach(function(a){
+    a.addEventListener("click", function(){ setActive(a.getAttribute("href").slice(1)); });
   });
 
   /* Tabovi palačinki */
