@@ -64,16 +64,27 @@ p{margin:0}
 /* Traka sekcija, samo telefon */
 .secbar{display:none}
 @media (max-width:900px){
-  :root{--bar-h:52px}
-  .secbar{display:block; height:var(--bar-h); border-top:1px solid var(--line)}
-  .secbar ul{display:flex; gap:6px; list-style:none; margin:0; height:100%; align-items:center; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; padding:0 var(--gr) 0 var(--gl); scroll-padding:0 var(--gl);
-    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  :root{--bar-h:58px}
+  .secbar{display:block; position:relative; height:var(--bar-h); border-top:1px solid var(--line)}
+  .secbar ul{display:flex; gap:8px; list-style:none; margin:0; height:100%; align-items:center; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; padding:0 var(--gr) 0 var(--gl)}
   .secbar ul::-webkit-scrollbar{display:none}
   .secbar li{flex:none}
-  .secbar a{display:flex; align-items:center; height:36px; padding:0 14px; border-radius:8px; text-decoration:none; font-weight:600; font-size:15px; color:var(--muted); background:var(--surface); border:1px solid var(--line); -webkit-tap-highlight-color:transparent; transition:background-color .25s, color .25s, border-color .25s}
+  .secbar li:last-child{padding-right:4px}
+  .secbar a{display:flex; align-items:center; gap:8px; height:40px; padding:0 14px 0 4px; border-radius:20px; text-decoration:none; font-weight:600; font-size:15px; color:var(--muted); background:var(--surface); border:1px solid var(--line); -webkit-tap-highlight-color:transparent; transition:background-color .25s, color .25s, border-color .25s}
+  .secbar a img{width:30px; height:30px; border-radius:50%; object-fit:cover; flex:none; box-shadow:0 0 0 1px rgba(255,255,255,.08)}
   .secbar a.on{background:var(--red); border-color:var(--red); color:#fff}
-  .secbar li:last-child{padding-right:20px}
+  .secbar a.on img{box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+  .sb-arrow{position:absolute; top:1px; bottom:0; width:52px; display:flex; align-items:center; border:0; padding:0; margin:0; cursor:pointer; opacity:0; visibility:hidden; transition:opacity .25s, visibility .25s; -webkit-tap-highlight-color:transparent; z-index:1}
+  .sb-arrow.show{opacity:1; visibility:visible}
+  .sb-l{left:0; justify-content:flex-start; padding-left:max(10px, env(safe-area-inset-left,0px)); background:linear-gradient(90deg, var(--bg) 45%, rgba(11,11,11,0))}
+  .sb-r{right:0; justify-content:flex-end; padding-right:max(10px, env(safe-area-inset-right,0px)); background:linear-gradient(270deg, var(--bg) 45%, rgba(11,11,11,0))}
+  .sb-arrow i{display:block; width:9px; height:9px; border-top:2px solid var(--yellow); border-right:2px solid var(--yellow)}
+  .sb-r i{transform:rotate(45deg); animation:nudge-r 1.6s ease-in-out infinite}
+  .sb-l i{transform:rotate(-135deg); animation:nudge-l 1.6s ease-in-out infinite}
+  @keyframes nudge-r{0%,100%{transform:translateX(-2px) rotate(45deg); opacity:.55} 50%{transform:translateX(3px) rotate(45deg); opacity:1}}
+  @keyframes nudge-l{0%,100%{transform:translateX(2px) rotate(-135deg); opacity:.55} 50%{transform:translateX(-3px) rotate(-135deg); opacity:1}}
 }
+@media (max-width:900px) and (prefers-reduced-motion: reduce){ .sb-arrow i{animation:none} }
 .nav .btn{height:42px; padding:0 16px; font-size:15px}
 @media (max-width:900px){ .nav .wrap ul{display:none} .nav .btn{margin-left:auto} }
 
@@ -244,13 +255,17 @@ footer nav a:hover{color:var(--ink)}
     </ul></nav>
     <a class="btn btn-red" href="tel:+381644278851">064/427 88 51</a>
   </div>
-  <nav class="secbar" aria-label="Sekcije jelovnika"><ul>
-    <li><a href="#pizza">Pizza</a></li>
-    <li><a href="#sendvici">Sendviči</a></li>
-    <li><a href="#tortilje">Tortilje</a></li>
-    <li><a href="#palacinke">Palačinke</a></li>
-    <li><a href="#kontakt">Lokacija</a></li>
-  </ul></nav>
+  <nav class="secbar" aria-label="Sekcije jelovnika">
+    <button class="sb-arrow sb-l" type="button" aria-label="Prethodne sekcije" tabindex="-1"><i></i></button>
+    <ul>
+      <li><a href="#pizza"><img src="images/thumbs/pizza.webp" alt="">Pizza</a></li>
+      <li><a href="#sendvici"><img src="images/thumbs/sand.webp" alt="">Sendviči</a></li>
+      <li><a href="#tortilje"><img src="images/thumbs/tort.webp" alt="">Tortilje</a></li>
+      <li><a href="#palacinke"><img src="images/thumbs/crepe.webp" alt="">Palačinke</a></li>
+      <li><a href="#kontakt"><img src="images/thumbs/map.webp" alt="">Lokacija</a></li>
+    </ul>
+    <button class="sb-arrow sb-r" type="button" aria-label="Sledeće sekcije" tabindex="-1"><i></i></button>
+  </nav>
 </header>
 
 <main>
@@ -548,6 +563,27 @@ footer nav a:hover{color:var(--ink)}
     };
     watch();
     window.addEventListener("resize", function(){ clearTimeout(watch.t); watch.t = setTimeout(watch, 200); });
+  }
+  /* Strelice u traci: vidljive samo kad u tom smeru ima još stavki */
+  var arL = document.querySelector(".sb-l"), arR = document.querySelector(".sb-r");
+  function arrows(){
+    if (!bar) return;
+    var max = bar.scrollWidth - bar.clientWidth;
+    arL.classList.toggle("show", bar.scrollLeft > 6);
+    arR.classList.toggle("show", bar.scrollLeft < max - 6);
+  }
+  if (bar){
+    bar.addEventListener("scroll", arrows, {passive: true});
+    window.addEventListener("resize", arrows);
+    window.addEventListener("load", arrows);
+    arrows();
+    [[arL, -1], [arR, 1]].forEach(function(p){
+      p[0].addEventListener("click", function(){
+        var to = Math.max(0, Math.min(bar.scrollWidth - bar.clientWidth, bar.scrollLeft + p[1] * bar.clientWidth * 0.6));
+        if (anim) gsap.to(bar, {scrollLeft: to, duration: .5, ease: "power2.out", overwrite: true});
+        else bar.scrollLeft = to;
+      });
+    });
   }
   navLinks.forEach(function(a){
     a.addEventListener("click", function(){ setActive(a.getAttribute("href").slice(1)); });
