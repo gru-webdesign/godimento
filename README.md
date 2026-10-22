@@ -15,11 +15,23 @@ GSAP (ScrollTrigger, SplitText) i fontovi se učitavaju sa CDN-a.
    - CNAME za `www`: `<korisnik>.github.io`
 4. Uključi "Enforce HTTPS" kada se sertifikat izda.
 
-## Izmena cena
+## Izmena cenovnika (admin)
 
-Cene su direktno u `index.html`:
-- pice: atributi `data-p32`, `data-p42`, `data-p50` na svakom `<li class="pz">`, i prikazana cena za 32 cm u `<strong class="pz-cur">`
-- palačinke: `data-v` i tekst u ćelijama tabela
+Cenovnik se nalazi u fajlu `menu.json`. Sajt ga učitava pri svakom otvaranju,
+pa nema baze ni servera.
+
+Admin stranica: `/admin.html` (na primer https://gru-webdesign.github.io/godimento/admin.html).
+Na njoj se menjaju nazivi, sastojci i cene, i dodaju, uklanjaju i premeštaju stavke.
+Dugme "Sačuvaj na sajt" upisuje novi `menu.json` u repozitorijum, a sajt prikazuje izmene za oko minut.
+
+Za čuvanje je potreban GitHub ključ, jednom po browseru:
+1. https://github.com/settings/personal-access-tokens/new
+2. Repository access: Only select repositories, izaberi `godimento`
+3. Repository permissions: Contents, Read and write
+4. Generate token, pa ga nalepi u admin pod "GitHub ključ"
+
+Ključ ostaje samo u tom browseru (localStorage). Bez ključa admin stranica može da prikaže cenovnik, ali ne može ništa da sačuva.
+Admin nije povezan sa sajta i ima `noindex`, pa ga pretraživači ne prikazuju.
 
 ## Zasluge
 

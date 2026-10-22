@@ -1,0 +1,379 @@
+{
+  "pizze": [
+    {
+      "naziv": "Margherita",
+      "opis": "pelat, mocarela",
+      "cene": [
+        350,
+        570,
+        790
+      ]
+    },
+    {
+      "naziv": "Fungi",
+      "opis": "pelat, mocarela, pečurke",
+      "cene": [
+        380,
+        650,
+        810
+      ]
+    },
+    {
+      "naziv": "Vesuvio",
+      "opis": "pelat, mocarela, šunka",
+      "cene": [
+        400,
+        670,
+        880
+      ]
+    },
+    {
+      "naziv": "Capricciosa",
+      "opis": "pelat, mocarela, šunka, pečurke",
+      "cene": [
+        440,
+        740,
+        950
+      ]
+    },
+    {
+      "naziv": "Piroške",
+      "opis": "2 komada u porciji: pelat, pavlaka, pečurke, šunka, kačkavalj",
+      "cene": [
+        490,
+        850,
+        null
+      ]
+    },
+    {
+      "naziv": "Calcone",
+      "opis": "pelat, pavlaka, pečurke, pečenica, kačkavalj",
+      "cene": [
+        450,
+        800,
+        null
+      ]
+    },
+    {
+      "naziv": "Frutti di mare",
+      "opis": "pelat, mocarela, tuna komadi, morski plodovi",
+      "cene": [
+        550,
+        900,
+        1170
+      ]
+    },
+    {
+      "naziv": "Quattro Formaggi",
+      "opis": "pelat, mocarela, dimljeni kačkavalj, parmezan, gorgonzola",
+      "cene": [
+        450,
+        830,
+        1050
+      ]
+    },
+    {
+      "naziv": "Quattro stagioni",
+      "opis": "pelat, mocarela, jaja, kulen, pečenica, pečurke",
+      "cene": [
+        470,
+        890,
+        1180
+      ]
+    },
+    {
+      "naziv": "Quattro carni",
+      "opis": "pelat, mocarela, goveđa pršuta, kulen, pečenica, dimljena piletina",
+      "cene": [
+        560,
+        950,
+        1270
+      ]
+    },
+    {
+      "naziv": "Grandioza",
+      "opis": "pelat, mocarela, komadići dinstane govedine, sveža paprika, peperoni, slanina, crni luk",
+      "cene": [
+        570,
+        930,
+        1240
+      ]
+    },
+    {
+      "naziv": "Manzo",
+      "opis": "pelat, pečurke, mocarela, komadići dinstane govedine, sveža paprika, goveđi kulen, čili, crni luk",
+      "cene": [
+        590,
+        940,
+        1250
+      ]
+    },
+    {
+      "naziv": "Pollo",
+      "opis": "pavlaka, komadići dinstane piletine, pečurke, sveža paprika, dimljena piletina, pollo sos",
+      "cene": [
+        550,
+        920,
+        1220
+      ]
+    },
+    {
+      "naziv": "Serbiana",
+      "opis": "pelat, mocarela, pečurke, kulen, slanina, svinjska pršuta, jaja, fereroni, dimljeni vrat",
+      "cene": [
+        570,
+        930,
+        1240
+      ]
+    },
+    {
+      "naziv": "Tonno",
+      "opis": "pelat, mocarela, komadi tune, sveža paprika, crni luk",
+      "cene": [
+        580,
+        880,
+        1150
+      ]
+    },
+    {
+      "naziv": "Posna",
+      "opis": "pelat, pečurke, sveža paprika, tuna komadi, kukuruz, paradajz",
+      "cene": [
+        450,
+        840,
+        1120
+      ]
+    },
+    {
+      "naziv": "Piacevolmente",
+      "opis": "pavlaka, mocarela, kulen, dimljeni vrat, kisela paprika, kajmak",
+      "cene": [
+        590,
+        1070,
+        1290
+      ]
+    },
+    {
+      "naziv": "Godimento",
+      "opis": "pelat, dimljeni kačkavalj, goveđa pršuta, pečenica, slanina, goveđi kulen, pavlaka, seckane crne masline",
+      "cene": [
+        600,
+        1090,
+        1300
+      ]
+    }
+  ],
+  "pogace": [
+    {
+      "opis": "duvan čvarci",
+      "mini": 240,
+      "maxi": 330
+    },
+    {
+      "opis": "čajna kobasica",
+      "mini": 240,
+      "maxi": 330
+    },
+    {
+      "opis": "goveđa pršuta",
+      "mini": 290,
+      "maxi": 360
+    },
+    {
+      "opis": "dimljena piletina",
+      "mini": 230,
+      "maxi": 320
+    }
+  ],
+  "lepinje": [
+    {
+      "opis": "dimljena piletina, kačkavalj, margarin, zelena salata",
+      "mini": 220,
+      "maxi": 310
+    },
+    {
+      "opis": "pavlaka, šunka, kačkavalj, kečap",
+      "mini": 200,
+      "maxi": 290
+    },
+    {
+      "opis": "majonez, pečenica, kačkavalj, zelena salata, svež paradajz",
+      "mini": 240,
+      "maxi": 340
+    },
+    {
+      "opis": "seckane paprike u pavlaci, dimljeni vrat, kačkavalj",
+      "mini": 230,
+      "maxi": 330
+    },
+    {
+      "opis": "kajmak, svinjska pršuta",
+      "mini": 240,
+      "maxi": 340
+    },
+    {
+      "opis": "kajmak, goveđa pršuta",
+      "mini": 250,
+      "maxi": 350
+    },
+    {
+      "opis": "dimljeni kačkavalj, slanina, peperoni, pavlaka, jaje, svež paradajz",
+      "mini": 270,
+      "maxi": 360
+    },
+    {
+      "opis": "tuna komadi, kukuruz, paprika, pelat, dinstane pečurke, masline",
+      "mini": 240,
+      "maxi": 340,
+      "posno": true
+    },
+    {
+      "opis": "tuna komadi, pelat, crni luk, zelena salata, pasulj",
+      "mini": 240,
+      "maxi": 340
+    }
+  ],
+  "tortilje": [
+    {
+      "opis": "dinstani komadići govedine, pavlaka, povrće, čili sos",
+      "mini": 290,
+      "maxi": 370
+    },
+    {
+      "opis": "dinstani komadići piletine, pavlaka, povrće, pollo sos",
+      "mini": 240,
+      "maxi": 330
+    },
+    {
+      "opis": "komadi tune, pelat, povrće",
+      "mini": 240,
+      "maxi": 340
+    }
+  ],
+  "slane": {
+    "kolone": [
+      "kačkavalj, pavlaka",
+      "+ pečurke",
+      "+ kiseli krastavci"
+    ],
+    "stavke": [
+      {
+        "naziv": "Šunka",
+        "cene": [
+          240,
+          270,
+          270
+        ]
+      },
+      {
+        "naziv": "Pečenica",
+        "cene": [
+          270,
+          300,
+          300
+        ]
+      },
+      {
+        "naziv": "Kulen",
+        "cene": [
+          270,
+          300,
+          300
+        ]
+      },
+      {
+        "naziv": "Goveđa pršuta",
+        "cene": [
+          310,
+          330,
+          330
+        ]
+      },
+      {
+        "naziv": "Dimljena piletina",
+        "cene": [
+          260,
+          290,
+          290
+        ]
+      }
+    ]
+  },
+  "slatke": {
+    "kolone": [
+      "eurocream",
+      "eurocream, banana",
+      "nutela",
+      "nutela, banana"
+    ],
+    "stavke": [
+      {
+        "naziv": "Samo krem",
+        "cene": [
+          210,
+          null,
+          250,
+          null
+        ]
+      },
+      {
+        "naziv": "Plazma",
+        "cene": [
+          230,
+          260,
+          270,
+          300
+        ]
+      },
+      {
+        "naziv": "Lešnik",
+        "cene": [
+          250,
+          280,
+          280,
+          310
+        ]
+      },
+      {
+        "naziv": "Badem",
+        "cene": [
+          260,
+          290,
+          290,
+          320
+        ]
+      },
+      {
+        "naziv": "Orasi",
+        "cene": [
+          230,
+          260,
+          270,
+          300
+        ]
+      },
+      {
+        "naziv": "Kokos",
+        "cene": [
+          230,
+          260,
+          270,
+          300
+        ]
+      },
+      {
+        "naziv": "Kikiriki",
+        "cene": [
+          230,
+          260,
+          270,
+          300
+        ]
+      }
+    ]
+  },
+  "dzem": {
+    "opis": "kajsija, šljiva, mešana marmelada, šipurak, jagoda",
+    "cena": 190
+  }
+}

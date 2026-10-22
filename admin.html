@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Godimento Cenovnik</title>
+<link rel="icon" href="images/logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Onest:wght@400;500;600;700&display=swap">
+<style>
+/* Admin za cenovnik: iste boje kao sajt, gušći raspored za rad. Leva kolona sekcije, desno urednik stavki. */
+:root{
+  --bg:#0b0b0b; --surface:#151515; --surface-2:#1e1e1e; --field:#101010; --line:#2a2a2a; --line-2:#3a3a3a;
+  --ink:#f3f3f1; --muted:#a3a3a0; --dim:#6b6b68;
+  --green:#85c227; --red:#d9301c; --red-hover:#ea3d27; --yellow:#ffd400; --err:#ff6b5a;
+  --f-display:"Bricolage Grotesque", Arial, sans-serif; --f-body:"Onest", Helvetica, Arial, sans-serif;
+  --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--bg); color:var(--ink); font:15px/1.5 var(--f-body); -webkit-font-smoothing:antialiased; padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3{font-family:var(--f-display); margin:0; letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+button,input,textarea{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--yellow); outline-offset:2px}
+
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:6px; height:40px; padding:0 16px; border-radius:8px; border:1px solid var(--line-2); background:var(--surface-2); font-weight:600; cursor:pointer; white-space:nowrap; text-decoration:none; transition:background-color .15s, border-color .15s}
+.btn:hover{border-color:var(--muted)}
+.btn:active{transform:translateY(1px)}
+.btn-red{background:var(--red); border-color:var(--red); color:#fff}
+.btn-red:hover{background:var(--red-hover); border-color:var(--red-hover)}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+.btn-sm{height:32px; padding:0 10px; font-size:13px}
+.btn-ghost{background:transparent; border-color:transparent; color:var(--muted)}
+.btn-ghost:hover{color:var(--ink); border-color:var(--line-2)}
+.btn-danger{color:var(--err)}
+.btn-danger.arm{background:var(--red); border-color:var(--red); color:#fff}
+
+/* Top */
+.top{position:sticky; top:0; z-index:10; background:rgba(11,11,11,.94); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px)}
+.top .in{display:flex; align-items:center; gap:12px; min-height:64px; padding:8px var(--gr) 8px var(--gl); flex-wrap:wrap}
+.top img{width:40px; height:40px}
+.top h1{font-size:20px; font-weight:800}
+.state{font-size:13px; color:var(--muted); display:flex; align-items:center; gap:6px}
+.state.dirty{color:var(--yellow)}
+.state.err{color:var(--err)}
+.top .acts{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap}
+
+.layout{display:grid; grid-template-columns:220px minmax(0,1fr); gap:28px; max-width:1180px; margin:0 auto; padding:24px var(--gr) 80px var(--gl)}
+.side{position:sticky; top:88px; align-self:start; display:grid; gap:2px}
+.side button{display:flex; justify-content:space-between; align-items:center; text-align:left; border:0; background:transparent; padding:10px 12px; border-radius:8px; color:var(--muted); font-weight:600; cursor:pointer}
+.side button:hover{color:var(--ink)}
+.side button[aria-selected="true"]{background:var(--surface-2); color:var(--ink)}
+.side .cnt{font-size:12px; color:var(--dim); font-variant-numeric:tabular-nums}
+.side .warn{color:var(--err)}
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr; gap:14px; padding-top:12px}
+  .side{position:static; display:flex; overflow-x:auto; gap:6px; scrollbar-width:none; margin:0 calc(-1 * var(--gr)) 0 calc(-1 * var(--gl)); padding:0 var(--gr) 4px var(--gl)}
+  .side::-webkit-scrollbar{display:none}
+  .side button{flex:none; border:1px solid var(--line); border-radius:20px; padding:8px 14px}
+  .side button[aria-selected="true"]{background:var(--red); border-color:var(--red); color:#fff}
+  .side button[aria-selected="true"] .cnt{color:rgba(255,255,255,.8)}
+}
+
+.panel-head{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:16px}
+.panel-head h2{font-size:28px; font-weight:800}
+.panel-head p{color:var(--muted); font-size:14px; margin-top:4px; max-width:60ch}
+
+.cols{display:grid; gap:8px; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:16px}
+.cols h3{grid-column:1/-1; font:600 13px var(--f-body); color:var(--muted)}
+
+.items{display:grid; gap:10px}
+.item{display:grid; grid-template-columns:28px minmax(0,1fr) auto; gap:12px; align-items:start; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px}
+.item.flash{animation:flash 1.2s ease-out}
+@keyframes flash{from{border-color:var(--yellow)}}
+.item .no{font:700 15px var(--f-display); color:var(--green); padding-top:30px; text-align:right; font-variant-numeric:tabular-nums}
+.fields{display:grid; gap:10px; min-width:0}
+.row{display:grid; gap:10px; grid-template-columns:minmax(0,1fr)}
+.prices{display:grid; gap:10px; grid-template-columns:repeat(var(--n,2), minmax(84px, 120px))}
+.prices.w{grid-template-columns:repeat(var(--n,2), minmax(72px, 1fr))}
+label.f{display:grid; gap:4px; min-width:0}
+label.f > span{font-size:12px; font-weight:600; color:var(--muted)}
+label.f input[type="text"],label.f input[type="number"],label.f textarea{width:100%; min-width:0; background:var(--field); border:1px solid var(--line-2); border-radius:8px; padding:9px 10px; outline:none; transition:border-color .15s}
+label.f textarea{resize:vertical; min-height:42px}
+label.f input:focus,label.f textarea:focus{border-color:var(--yellow)}
+label.f input[type="number"]{font-variant-numeric:tabular-nums; -moz-appearance:textfield}
+label.f input::-webkit-outer-spin-button,label.f input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+label.f .bad{border-color:var(--err)!important}
+.chk{display:inline-flex; align-items:center; gap:8px; font-size:14px; color:var(--muted); cursor:pointer}
+.chk input{width:18px; height:18px; accent-color:var(--green)}
+.tools{display:flex; flex-direction:column; gap:6px; padding-top:22px}
+.tools .mv{display:flex; gap:4px}
+.hint{font-size:12px; color:var(--dim)}
+.add{margin-top:12px; width:100%; height:48px; border-style:dashed; background:transparent; color:var(--muted)}
+.add:hover{color:var(--ink)}
+@media (max-width:620px){
+  .item{grid-template-columns:minmax(0,1fr); padding:12px}
+  .item .no{padding:0; text-align:left}
+  .tools{flex-direction:row; justify-content:space-between; padding-top:0; border-top:1px solid var(--line); padding-top:10px}
+  .prices{grid-template-columns:repeat(var(--n,2), minmax(0,1fr))}
+}
+
+.side button{gap:8px}
+@media (max-width:620px){
+  .top{backdrop-filter:none; -webkit-backdrop-filter:none; background:var(--bg)}
+  .top .in{min-height:56px; gap:10px}
+  .top img{width:34px; height:34px}
+  .top h1{font-size:18px}
+  .top .acts{gap:4px}
+  .top .acts .btn-ghost{display:none}
+  .top .acts #btnSettings{height:36px; padding:0 12px; font-size:13px}
+  #btnSave{position:fixed; left:var(--gl); right:var(--gr); bottom:max(12px, calc(env(safe-area-inset-bottom,0px) + 8px)); height:50px; z-index:12; box-shadow:0 10px 30px rgba(0,0,0,.6)}
+  #btnSave:disabled{opacity:1; background:var(--surface-2); border-color:var(--line-2); color:var(--dim)}
+  .layout{padding-bottom:110px}
+  .toast{bottom:calc(max(12px, calc(env(safe-area-inset-bottom,0px) + 8px)) + 62px)}
+}
+
+/* Podešavanja */
+.sheet{position:fixed; inset:0; z-index:30; background:rgba(0,0,0,.6); display:flex; align-items:flex-start; justify-content:center; padding:max(24px, env(safe-area-inset-top,0px)) var(--gr) 24px var(--gl); overflow:auto}
+.sheet .card{width:100%; max-width:560px; background:var(--surface); border:1px solid var(--line-2); border-radius:14px; padding:22px; display:grid; gap:14px; margin-top:40px}
+.sheet h2{font-size:22px}
+.sheet ol{margin:0; padding-left:20px; color:var(--muted); display:grid; gap:4px; font-size:14px}
+.sheet ol strong{color:var(--ink)}
+.sheet .acts{display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap}
+.note{font-size:13px; color:var(--muted); background:var(--field); border:1px solid var(--line); border-radius:8px; padding:10px 12px}
+
+.toast{position:fixed; left:50%; bottom:max(20px, calc(env(safe-area-inset-bottom,0px) + 12px)); transform:translate(-50%, 20px); opacity:0; background:var(--surface-2); border:1px solid var(--line-2); border-radius:10px; padding:12px 16px; font-weight:600; z-index:40; transition:opacity .25s, transform .25s; max-width:calc(100% - 32px)}
+.toast.show{opacity:1; transform:translate(-50%, 0)}
+.toast.ok{border-color:var(--green)}
+.toast.err{border-color:var(--err)}
+.loading{padding:60px 0; text-align:center; color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="in">
+    <img src="images/logo.webp" alt="">
+    <div>
+      <h1>Cenovnik</h1>
+      <p class="state" id="state" aria-live="polite">Učitavanje</p>
+    </div>
+    <div class="acts">
+      <a class="btn btn-ghost" href="./" target="_blank" rel="noopener">Pogledaj sajt</a>
+      <button class="btn" id="btnSettings" type="button">GitHub ključ</button>
+      <button class="btn btn-red" id="btnSave" type="button" disabled>Sačuvaj na sajt</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="side" id="side" role="tablist" aria-label="Sekcije cenovnika"></nav>
+  <main id="main"><p class="loading">Učitavanje cenovnika</p></main>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <form class="card" id="setForm" autocomplete="off">
+    <h2>GitHub ključ</h2>
+    <p class="note">Cenovnik se čuva kao fajl <strong>menu.json</strong> u repozitorijumu sajta. Za čuvanje je potreban ključ (token) koji važi samo za taj repozitorijum. Ključ ostaje sačuvan samo u ovom browseru.</p>
+    <ol>
+      <li>Otvori <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a></li>
+      <li>Repository access: <strong>Only select repositories</strong>, izaberi <strong>godimento</strong></li>
+      <li>Permissions, Repository permissions: <strong>Contents: Read and write</strong></li>
+      <li>Klikni Generate token, kopiraj ga i nalepi ovde</li>
+    </ol>
+    <label class="f"><span>Ključ (token)</span><input type="password" id="setToken" placeholder="github_pat_..." spellcheck="false"></label>
+    <div class="prices w" style="--n:2">
+      <label class="f"><span>Repozitorijum</span><input type="text" id="setRepo" spellcheck="false"></label>
+      <label class="f"><span>Grana</span><input type="text" id="setBranch" spellcheck="false"></label>
+    </div>
+    <p class="hint" id="setMsg"></p>
+    <div class="acts">
+      <button class="btn btn-ghost" type="button" id="setForget">Obriši ključ</button>
+      <button class="btn" type="button" id="setClose">Zatvori</button>
+      <button class="btn btn-red" type="submit">Sačuvaj i proveri</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var DEF = {repo: "gru-webdesign/godimento", branch: "main", path: "menu.json"};
+  var store = {
+    get: function(k){ try { return localStorage.getItem("gm-" + k) || ""; } catch(e){ return ""; } },
+    set: function(k, v){ try { if (v) localStorage.setItem("gm-" + k, v); else localStorage.removeItem("gm-" + k); } catch(e){} }
+  };
+  function cfg(){ return {token: store.get("token"), repo: store.get("repo") || DEF.repo, branch: store.get("branch") || DEF.branch}; }
+
+  /* Opis sekcija: šta se uređuje i kako */
+  var SECTIONS = [
+    {key: "pizze", title: "Pice", desc: "Naziv, sastojci i cene za 32, 42 i 50 cm. Prazno polje cene znači da te veličine nema.", type: "pizza"},
+    {key: "pogace", title: "Sendviči u pogačama", desc: "Pogača, topaljka i kuvano jaje, plus dodatak koji upisuješ ovde.", type: "list"},
+    {key: "lepinje", title: "Sendviči u lepinjama", desc: "Sastav sendviča i cene za mini i maxi.", type: "list"},
+    {key: "tortilje", title: "Tortilje", desc: "Sastav tortilje i cene za mini i maxi.", type: "list"},
+    {key: "slane", title: "Slane palačinke", desc: "Redovi su vrste mesa, kolone dodaci. Prazno polje znači da te kombinacije nema.", type: "table"},
+    {key: "slatke", title: "Slatke palačinke", desc: "Redovi su posipi, kolone kremovi. Prazno polje znači da te kombinacije nema.", type: "table"},
+    {key: "dzem", title: "Džem", desc: "Palačinka sa džemom ima jednu cenu.", type: "single"}
+  ];
+  var BLANK = {
+    pizze: function(){ return {naziv: "", opis: "", cene: [null, null, null]}; },
+    list: function(){ return {opis: "", mini: null, maxi: null}; },
+    table: function(n){ var c = []; for (var i = 0; i < n; i++) c.push(null); return {naziv: "", cene: c}; }
+  };
+
+  var data = null, saved = "", sha = null, active = "pizze";
+  var $ = function(id){ return document.getElementById(id); };
+  var main = $("main"), side = $("side"), stateEl = $("state"), btnSave = $("btnSave");
+
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function toast(msg, kind){
+    var t = $("toast"); t.textContent = msg; t.className = "toast show " + (kind || "");
+    clearTimeout(toast.t); toast.t = setTimeout(function(){ t.className = "toast " + (kind || ""); }, kind === "err" ? 6000 : 3500);
+  }
+  function num(v){ v = String(v).trim(); if (!v) return null; var n = Math.round(Number(v)); return isFinite(n) && n > 0 ? n : NaN; }
+  function json(){ return JSON.stringify(data, null, 2) + "\n"; }
+
+  /* Provera ispravnosti */
+  function problems(){
+    var out = {};
+    function add(k){ out[k] = (out[k] || 0) + 1; }
+    data.pizze.forEach(function(p){ if (!p.naziv.trim()) add("pizze"); p.cene.forEach(function(c){ if (c !== null && !(c > 0)) add("pizze"); }); if (!p.cene.some(function(c){ return c > 0; })) add("pizze"); });
+    ["pogace", "lepinje", "tortilje"].forEach(function(k){ data[k].forEach(function(r){ if (!r.opis.trim()) add(k); [r.mini, r.maxi].forEach(function(c){ if (c !== null && !(c > 0)) add(k); }); }); });
+    ["slane", "slatke"].forEach(function(k){
+      data[k].kolone.forEach(function(c){ if (!String(c).trim()) add(k); });
+      data[k].stavke.forEach(function(r){ if (!r.naziv.trim()) add(k); r.cene.forEach(function(c){ if (c !== null && !(c > 0)) add(k); }); });
+    });
+    if (!(data.dzem.cena > 0)) add("dzem");
+    return out;
+  }
+  function refreshState(){
+    var dirty = json() !== saved;
+    var bad = problems();
+    var nBad = Object.keys(bad).length;
+    btnSave.disabled = !dirty || nBad > 0;
+    stateEl.className = "state" + (nBad ? " err" : dirty ? " dirty" : "");
+    stateEl.textContent = nBad ? "Ispravi označena polja pre čuvanja" : dirty ? "Ima nesačuvanih izmena" : (sha ? "Sve je sačuvano" : "Nema izmena");
+    [].forEach.call(side.querySelectorAll("button"), function(b){
+      var k = b.dataset.key, cnt = b.querySelector(".cnt");
+      var n = k === "dzem" ? "" : (k === "slane" || k === "slatke" ? data[k].stavke.length : data[k].length);
+      cnt.textContent = bad[k] ? "!" : n;
+      cnt.classList.toggle("warn", !!bad[k]);
+    });
+  }
+
+  /* Bočni meni */
+  function renderSide(){
+    side.innerHTML = SECTIONS.map(function(s){
+      return '<button type="button" role="tab" data-key="' + s.key + '" aria-selected="' + (s.key === active) + '">' + esc(s.title) + ' <span class="cnt"></span></button>';
+    }).join("");
+  }
+  side.addEventListener("click", function(e){
+    var b = e.target.closest("button"); if (!b) return;
+    active = b.dataset.key; renderSide(); renderMain(); refreshState();
+    if (window.innerWidth <= 820) b.scrollIntoView({block: "nearest", inline: "center"});
+    window.scrollTo({top: 0});
+  });
+
+  /* Urednik */
+  function field(label, path, value, opts){
+    opts = opts || {};
+    var bad = opts.bad ? " bad" : "";
+    if (opts.area) return '<label class="f"><span>' + label + '</span><textarea rows="2" data-p="' + path + '" class="' + bad + '">' + esc(value) + '</textarea></label>';
+    return '<label class="f"><span>' + label + '</span><input type="' + (opts.num ? "number" : "text") + '"' + (opts.num ? ' inputmode="numeric" min="1" step="10"' : "") + ' data-p="' + path + '" value="' + esc(value == null ? "" : value) + '" class="' + bad + '"' + (opts.ph ? ' placeholder="' + opts.ph + '"' : "") + '></label>';
+  }
+  function badPrice(v){ return v !== null && !(v > 0); }
+  function tools(i, len){
+    return '<div class="tools"><div class="mv">' +
+      '<button class="btn btn-sm btn-ghost" type="button" data-a="up" data-i="' + i + '"' + (i === 0 ? " disabled" : "") + ' aria-label="Pomeri gore">Gore</button>' +
+      '<button class="btn btn-sm btn-ghost" type="button" data-a="down" data-i="' + i + '"' + (i === len - 1 ? " disabled" : "") + ' aria-label="Pomeri dole">Dole</button></div>' +
+      '<button class="btn btn-sm btn-ghost btn-danger" type="button" data-a="del" data-i="' + i + '">Ukloni</button></div>';
+  }
+  function renderMain(){
+    var s = SECTIONS.filter(function(x){ return x.key === active; })[0];
+    var h = '<div class="panel-head"><div><h2>' + esc(s.title) + '</h2><p>' + esc(s.desc) + '</p></div></div>';
+    if (s.type === "pizza"){
+      h += '<div class="items">' + data.pizze.map(function(p, i){
+        return '<div class="item" data-i="' + i + '"><span class="no">' + (i + 1) + '</span><div class="fields">' +
+          '<div class="row">' + field("Naziv", "pizze." + i + ".naziv", p.naziv, {bad: !p.naziv.trim()}) + '</div>' +
+          field("Sastojci", "pizze." + i + ".opis", p.opis, {area: true}) +
+          '<div class="prices" style="--n:3">' + [32, 42, 50].map(function(cm, j){ return field(cm + " cm", "pizze." + i + ".cene." + j, p.cene[j], {num: true, ph: "nema", bad: badPrice(p.cene[j])}); }).join("") + '</div>' +
+          '</div>' + tools(i, data.pizze.length) + '</div>';
+      }).join("") + '</div><button class="btn add" type="button" data-a="add">+ Dodaj picu</button>';
+    } else if (s.type === "list"){
+      var arr = data[s.key];
+      h += '<div class="items">' + arr.map(function(r, i){
+        return '<div class="item" data-i="' + i + '"><span class="no">' + (i + 1) + '</span><div class="fields">' +
+          field("Sastav", s.key + "." + i + ".opis", r.opis, {area: true, bad: !r.opis.trim()}) +
+          '<div class="prices" style="--n:2">' + field("Mini", s.key + "." + i + ".mini", r.mini, {num: true, ph: "nema", bad: badPrice(r.mini)}) + field("Maxi", s.key + "." + i + ".maxi", r.maxi, {num: true, ph: "nema", bad: badPrice(r.maxi)}) + '</div>' +
+          '<label class="chk"><input type="checkbox" data-p="' + s.key + "." + i + '.posno"' + (r.posno ? " checked" : "") + '> Posno</label>' +
+          '</div>' + tools(i, arr.length) + '</div>';
+      }).join("") + '</div><button class="btn add" type="button" data-a="add">+ Dodaj stavku</button>';
+    } else if (s.type === "table"){
+      var t = data[s.key], n = t.kolone.length;
+      h += '<div class="cols"><h3>Nazivi kolona (prikazuju se iznad cena)</h3>' + t.kolone.map(function(c, j){ return field("Kolona " + (j + 1), s.key + ".kolone." + j, c, {bad: !String(c).trim()}); }).join("") + '</div>';
+      h += '<div class="items">' + t.stavke.map(function(r, i){
+        return '<div class="item" data-i="' + i + '"><span class="no">' + (i + 1) + '</span><div class="fields">' +
+          '<div class="row">' + field("Naziv reda", s.key + ".stavke." + i + ".naziv", r.naziv, {bad: !r.naziv.trim()}) + '</div>' +
+          '<div class="prices w" style="--n:' + n + '">' + t.kolone.map(function(c, j){ return field(esc(c) || ("Kolona " + (j + 1)), s.key + ".stavke." + i + ".cene." + j, r.cene[j], {num: true, ph: "nema", bad: badPrice(r.cene[j])}); }).join("") + '</div>' +
+          '</div>' + tools(i, t.stavke.length) + '</div>';
+      }).join("") + '</div><button class="btn add" type="button" data-a="add">+ Dodaj red</button>';
+    } else {
+      h += '<div class="items"><div class="item"><span class="no"></span><div class="fields">' +
+        field("Ukusi", "dzem.opis", data.dzem.opis, {area: true}) +
+        '<div class="prices" style="--n:1">' + field("Cena", "dzem.cena", data.dzem.cena, {num: true, bad: !(data.dzem.cena > 0)}) + '</div>' +
+        '</div><div></div></div></div>';
+    }
+    main.innerHTML = h;
+  }
+  function listOf(key){ return key === "slane" || key === "slatke" ? data[key].stavke : data[key]; }
+  function setPath(path, value){
+    var parts = path.split("."), o = data;
+    for (var i = 0; i < parts.length - 1; i++) o = o[parts[i]];
+    o[parts[parts.length - 1]] = value;
+  }
+
+  main.addEventListener("input", function(e){
+    var el = e.target, p = el.getAttribute("data-p"); if (!p) return;
+    var v;
+    if (el.type === "checkbox"){ v = el.checked; if (!v){ var parts = p.split("."); delete data[parts[0]][parts[1]].posno; refreshState(); return; } }
+    else if (el.type === "number"){ v = num(el.value); el.classList.toggle("bad", v !== null && !(v > 0)); }
+    else { v = el.value; if (/\.(naziv|kolone\.\d+)$/.test(p) || (/\.opis$/.test(p) && active !== "pizze" && active !== "dzem")) el.classList.toggle("bad", !v.trim()); }
+    setPath(p, v);
+    if (/^(slane|slatke)\.kolone\./.test(p)){
+      var j = +p.split(".")[2];
+      [].forEach.call(main.querySelectorAll('[data-p$=".cene.' + j + '"]'), function(inp){ inp.parentNode.querySelector("span").textContent = v || ("Kolona " + (j + 1)); });
+    }
+    refreshState();
+  });
+
+  main.addEventListener("click", function(e){
+    var b = e.target.closest("button[data-a]"); if (!b) return;
+    var a = b.dataset.a, i = +b.dataset.i, arr = listOf(active), focusIdx = null;
+    if (a === "add"){
+      var s = SECTIONS.filter(function(x){ return x.key === active; })[0];
+      arr.push(s.type === "pizza" ? BLANK.pizze() : s.type === "table" ? BLANK.table(data[active].kolone.length) : BLANK.list());
+      focusIdx = arr.length - 1;
+    } else if (a === "up" && i > 0){ arr.splice(i - 1, 0, arr.splice(i, 1)[0]); focusIdx = i - 1; }
+    else if (a === "down" && i < arr.length - 1){ arr.splice(i + 1, 0, arr.splice(i, 1)[0]); focusIdx = i + 1; }
+    else if (a === "del"){
+      if (!b.classList.contains("arm")){
+        b.classList.add("arm"); b.textContent = "Potvrdi";
+        clearTimeout(b._t); b._t = setTimeout(function(){ b.classList.remove("arm"); b.textContent = "Ukloni"; }, 3000);
+        return;
+      }
+      var removed = arr.splice(i, 1)[0];
+      toast("Uklonjeno: " + (removed.naziv || removed.opis || "stavka"));
+    } else return;
+    var y = window.scrollY;
+    renderMain(); refreshState();
+    if (a === "add"){
+      var last = main.querySelector('.item[data-i="' + focusIdx + '"]');
+      last.classList.add("flash"); last.scrollIntoView({block: "center", behavior: "smooth"});
+      var f = last.querySelector("input,textarea"); if (f) setTimeout(function(){ f.focus({preventScroll: true}); }, 300);
+    } else {
+      window.scrollTo(0, y);
+      if (focusIdx !== null){ var it = main.querySelector('.item[data-i="' + focusIdx + '"]'); if (it){ it.classList.add("flash"); var mb = it.querySelector('[data-a="' + a + '"]:not([disabled])'); if (mb) mb.focus({preventScroll: true}); } }
+    }
+  });
+
+  /* GitHub */
+  function b64enc(str){ var bytes = new TextEncoder().encode(str), bin = ""; for (var i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(bin); }
+  function b64dec(b){ var bin = atob(b.replace(/\s/g, "")), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new TextDecoder().decode(u); }
+  function api(path, opts){
+    var c = cfg();
+    opts = opts || {};
+    opts.headers = Object.assign({"Accept": "application/vnd.github+json", "Authorization": "Bearer " + c.token, "X-GitHub-Api-Version": "2022-11-28"}, opts.headers || {});
+    return fetch("https://api.github.com/repos/" + c.repo + path, opts).then(function(r){
+      return r.text().then(function(t){ var j = null; try { j = t ? JSON.parse(t) : null; } catch(e){} if (!r.ok){ var err = new Error((j && j.message) || ("HTTP " + r.status)); err.status = r.status; throw err; } return j; });
+    });
+  }
+  function explain(err){
+    if (err.status === 401) return "GitHub ključ nije ispravan ili je istekao.";
+    if (err.status === 403) return "Ključ nema dozvolu za upis. Potrebno je Contents: Read and write.";
+    if (err.status === 404) return "Repozitorijum ili fajl nije pronađen. Proveri naziv repozitorijuma i granu.";
+    if (err.status === 409) return "Cenovnik je u međuvremenu promenjen na drugom mestu. Osveži stranicu.";
+    if (err.status === 422) return "GitHub je odbio izmenu. Osveži stranicu i pokušaj ponovo.";
+    return "Greška pri vezi sa GitHub-om: " + err.message;
+  }
+  function loadRemote(){
+    var c = cfg();
+    return api("/contents/" + DEF.path + "?ref=" + encodeURIComponent(c.branch) + "&t=" + Date.now()).then(function(j){ sha = j.sha; return JSON.parse(b64dec(j.content)); });
+  }
+  function loadLocal(){
+    return fetch(DEF.path + "?t=" + Date.now(), {cache: "no-store"}).then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
+  }
+  function normalize(m){
+    m.pizze.forEach(function(p){ p.cene = [0, 1, 2].map(function(j){ return p.cene && p.cene[j] > 0 ? p.cene[j] : null; }); });
+    ["pogace", "lepinje", "tortilje"].forEach(function(k){ m[k].forEach(function(r){ r.mini = r.mini > 0 ? r.mini : null; r.maxi = r.maxi > 0 ? r.maxi : null; if (!r.posno) delete r.posno; }); });
+    ["slane", "slatke"].forEach(function(k){ var n = m[k].kolone.length; m[k].stavke.forEach(function(r){ var c = []; for (var j = 0; j < n; j++) c.push(r.cene && r.cene[j] > 0 ? r.cene[j] : null); r.cene = c; }); });
+    return m;
+  }
+  function start(m){
+    data = normalize(m); saved = json();
+    renderSide(); renderMain(); refreshState();
+  }
+  function load(){
+    var p = cfg().token ? loadRemote().catch(function(err){ toast(explain(err), "err"); sha = null; return loadLocal(); }) : loadLocal();
+    p.then(start, function(){
+      main.innerHTML = '<p class="loading">Cenovnik nije moguće učitati. Proveri internet vezu ili GitHub ključ.</p>';
+      stateEl.textContent = "Greška pri učitavanju"; stateEl.className = "state err";
+    });
+  }
+
+  btnSave.addEventListener("click", function(){
+    if (!cfg().token){ openSettings("Za čuvanje unesi GitHub ključ."); return; }
+    btnSave.disabled = true; btnSave.textContent = "Čuvanje...";
+    var body = json();
+    var pre = sha ? Promise.resolve(sha) : api("/contents/" + DEF.path + "?ref=" + encodeURIComponent(cfg().branch)).then(function(j){ return j.sha; }, function(err){ if (err.status === 404) return null; throw err; });
+    pre.then(function(curSha){
+      var d = new Date(), stamp = d.toLocaleDateString("sr-Latn") + " " + d.toLocaleTimeString("sr-Latn", {hour: "2-digit", minute: "2-digit"});
+      var payload = {message: "Cenovnik: izmene " + stamp, content: b64enc(body), branch: cfg().branch};
+      if (curSha) payload.sha = curSha;
+      return api("/contents/" + DEF.path, {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload)});
+    }).then(function(r){
+      sha = r.content.sha; saved = body;
+      toast("Sačuvano. Sajt prikazuje nove cene za oko minut.", "ok");
+    }, function(err){ toast(explain(err), "err"); })
+    .then(function(){ btnSave.textContent = "Sačuvaj na sajt"; refreshState(); });
+  });
+
+  /* Podešavanja */
+  var sheet = $("sheet");
+  function openSettings(msg){
+    var c = cfg();
+    $("setToken").value = c.token; $("setRepo").value = c.repo; $("setBranch").value = c.branch;
+    $("setMsg").textContent = msg || (c.token ? "Ključ je sačuvan u ovom browseru." : "Ključ još nije unet.");
+    sheet.hidden = false; setTimeout(function(){ $("setToken").focus(); }, 50);
+  }
+  function closeSettings(){ sheet.hidden = true; }
+  $("btnSettings").addEventListener("click", function(){ openSettings(); });
+  $("setClose").addEventListener("click", closeSettings);
+  sheet.addEventListener("click", function(e){ if (e.target === sheet) closeSettings(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !sheet.hidden) closeSettings(); });
+  $("setForget").addEventListener("click", function(){ store.set("token", ""); $("setToken").value = ""; $("setMsg").textContent = "Ključ je obrisan iz ovog browsera."; });
+  $("setForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var tok = $("setToken").value.trim(), repo = $("setRepo").value.trim() || DEF.repo, br = $("setBranch").value.trim() || DEF.branch;
+    store.set("token", tok); store.set("repo", repo === DEF.repo ? "" : repo); store.set("branch", br === DEF.branch ? "" : br);
+    if (!tok){ $("setMsg").textContent = "Unesi ključ."; return; }
+    $("setMsg").textContent = "Proveravam ključ...";
+    api("").then(function(r){
+      if (!r.permissions || !r.permissions.push){ $("setMsg").textContent = "Ključ radi, ali nema dozvolu za upis (Contents: Read and write)."; return; }
+      $("setMsg").textContent = "Ključ radi.";
+      if (json() === saved){ loadRemote().then(start).catch(function(){}); }
+      else { api("/contents/" + DEF.path + "?ref=" + encodeURIComponent(br)).then(function(j){ sha = j.sha; }, function(){}); }
+      setTimeout(closeSettings, 600);
+      toast("GitHub ključ je sačuvan.", "ok");
+    }, function(err){ $("setMsg").textContent = explain(err); });
+  });
+
+  window.addEventListener("beforeunload", function(e){ if (data && json() !== saved){ e.preventDefault(); e.returnValue = ""; } });
+  document.addEventListener("keydown", function(e){ if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s"){ e.preventDefault(); if (!btnSave.disabled) btnSave.click(); } });
+
+  load();
+})();
+</script>
+</body>
+</html>

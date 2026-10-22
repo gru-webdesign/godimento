@@ -34,6 +34,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+.pre .hero .wrap{visibility:hidden}
 html{scroll-behavior:smooth; scroll-padding-top:calc(var(--head-h) + 12px)}
 body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden}
 body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:var(--bg)}
@@ -241,6 +242,8 @@ footer nav a:hover{color:var(--ink)}
 }
 @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition-duration:.01ms!important} }
 </style>
+
+<script>document.documentElement.classList.add("pre");setTimeout(function(){document.documentElement.classList.remove("pre")},2500);</script>
 </head>
 <body>
 <header class="nav" id="top">
@@ -309,9 +312,9 @@ footer nav a:hover{color:var(--ink)}
           <text class="big" id="dialTxt" x="120" y="122" text-anchor="middle" dominant-baseline="middle">32</text>
           <text x="120" y="150" text-anchor="middle">cm</text>
         </svg>
-        <p class="size-note">Piroške i Calcone pravimo u 32 i 42 cm.</p>
+        <p class="size-note" data-m="size-note">Piroške i Calcone pravimo u 32 i 42 cm.</p>
       </aside>
-      <ol class="pz-list">
+      <ol class="pz-list" data-m="pizze">
 <li class="pz" data-p32="350" data-p42="570" data-p50="790"><span class="pz-no">1</span><div><h3>Margherita</h3><p>pelat, mocarela</p></div><div class="pz-price"><strong class="pz-cur">350</strong><span class="pz-unit">din</span></div></li>
 <li class="pz" data-p32="380" data-p42="650" data-p50="810"><span class="pz-no">2</span><div><h3>Fungi</h3><p>pelat, mocarela, pečurke</p></div><div class="pz-price"><strong class="pz-cur">380</strong><span class="pz-unit">din</span></div></li>
 <li class="pz" data-p32="400" data-p42="670" data-p50="880"><span class="pz-no">3</span><div><h3>Vesuvio</h3><p>pelat, mocarela, šunka</p></div><div class="pz-price"><strong class="pz-cur">400</strong><span class="pz-unit">din</span></div></li>
@@ -343,19 +346,19 @@ footer nav a:hover{color:var(--ink)}
       <div class="tile tile-a">
         <h3>U pogačama</h3>
         <p class="sub">Pogača, topaljka i kuvano jaje, uz:</p>
-        <ul class="plist">
-          <li class="head" aria-hidden="true"><span></span><span></span><span>mini</span><span>maxi</span></li>
+        <ul class="plist" data-m="pogace">
+<li class="head" aria-hidden="true"><span></span><span></span><span>mini</span><span>maxi</span></li>
 <li><span class="li-no">1</span><span class="li-t">duvan čvarci</span><span class="num">240</span><span class="num">330</span></li>
 <li><span class="li-no">2</span><span class="li-t">čajna kobasica</span><span class="num">240</span><span class="num">330</span></li>
 <li><span class="li-no">3</span><span class="li-t">goveđa pršuta</span><span class="num">290</span><span class="num">360</span></li>
 <li><span class="li-no">4</span><span class="li-t">dimljena piletina</span><span class="num">230</span><span class="num">320</span></li>
         </ul>
-        <p class="yours">5. Pogača, vaš predlog sa našim raspoloživim materijalima.</p>
+        <p class="yours"><span data-m="pogace-n">5</span>. Pogača, vaš predlog sa našim raspoloživim materijalima.</p>
       </div>
       <div class="tile tile-b">
         <h3>U domaćim lepinjama</h3>
-        <ul class="plist">
-          <li class="head" aria-hidden="true"><span></span><span></span><span>mini</span><span>maxi</span></li>
+        <ul class="plist" data-m="lepinje">
+<li class="head" aria-hidden="true"><span></span><span></span><span>mini</span><span>maxi</span></li>
 <li><span class="li-no">1</span><span class="li-t">dimljena piletina, kačkavalj, margarin, zelena salata</span><span class="num">220</span><span class="num">310</span></li>
 <li><span class="li-no">2</span><span class="li-t">pavlaka, šunka, kačkavalj, kečap</span><span class="num">200</span><span class="num">290</span></li>
 <li><span class="li-no">3</span><span class="li-t">majonez, pečenica, kačkavalj, zelena salata, svež paradajz</span><span class="num">240</span><span class="num">340</span></li>
@@ -366,15 +369,15 @@ footer nav a:hover{color:var(--ink)}
 <li><span class="li-no">8</span><span class="li-t">tuna komadi, kukuruz, paprika, pelat, dinstane pečurke, masline <span class="posno">posno</span></span><span class="num">240</span><span class="num">340</span></li>
 <li><span class="li-no">9</span><span class="li-t">tuna komadi, pelat, crni luk, zelena salata, pasulj</span><span class="num">240</span><span class="num">340</span></li>
         </ul>
-        <p class="yours">10. Domaća lepinja, vaš predlog sa našim raspoloživim materijalima.</p>
+        <p class="yours"><span data-m="lepinje-n">10</span>. Domaća lepinja, vaš predlog sa našim raspoloživim materijalima.</p>
       </div>
       <div class="tile tile-c" id="tortilje">
         <div class="tile-img"><img src="images/tortilja.webp" alt="Tortilja sa komadićima govedine i povrćem" loading="lazy"></div>
         <div class="tile-body">
           <h3>Tortilje</h3>
           <p class="sub">Domaća tortilja.</p>
-          <ul class="plist">
-            <li class="head" aria-hidden="true"><span></span><span></span><span>mini</span><span>maxi</span></li>
+          <ul class="plist" data-m="tortilje">
+<li class="head" aria-hidden="true"><span></span><span></span><span>mini</span><span>maxi</span></li>
 <li><span class="li-no">1</span><span class="li-t">dinstani komadići govedine, pavlaka, povrće, čili sos</span><span class="num">290</span><span class="num">370</span></li>
 <li><span class="li-no">2</span><span class="li-t">dinstani komadići piletine, pavlaka, povrće, pollo sos</span><span class="num">240</span><span class="num">330</span></li>
 <li><span class="li-no">3</span><span class="li-t">komadi tune, pelat, povrće</span><span class="num">240</span><span class="num">340</span></li>
@@ -397,8 +400,8 @@ footer nav a:hover{color:var(--ink)}
         <div role="tabpanel" id="p-slane" aria-labelledby="t-slane">
           <div class="tbl-wrap"><table class="tbl">
             <caption>Sve slane palačinke sa kačkavaljem i pavlakom. Cene u dinarima.</caption>
-            <thead><tr><th scope="col"></th><th scope="col">kačkavalj, pavlaka</th><th scope="col">+ pečurke</th><th scope="col">+ kiseli krastavci</th></tr></thead>
-            <tbody>
+            <thead data-m="slane-head"><tr><th scope="col"></th><th scope="col">kačkavalj, pavlaka</th><th scope="col">+ pečurke</th><th scope="col">+ kiseli krastavci</th></tr></thead>
+            <tbody data-m="slane-body">
 <tr><th scope="row">Šunka</th><td class="num" data-v="240">240</td><td class="num" data-v="270">270</td><td class="num" data-v="270">270</td></tr>
 <tr><th scope="row">Pečenica</th><td class="num" data-v="270">270</td><td class="num" data-v="300">300</td><td class="num" data-v="300">300</td></tr>
 <tr><th scope="row">Kulen</th><td class="num" data-v="270">270</td><td class="num" data-v="300">300</td><td class="num" data-v="300">300</td></tr>
@@ -410,8 +413,8 @@ footer nav a:hover{color:var(--ink)}
         <div role="tabpanel" id="p-slatke" aria-labelledby="t-slatke" hidden>
           <div class="tbl-wrap"><table class="tbl">
             <caption>Cene u dinarima.</caption>
-            <thead><tr><th scope="col"></th><th scope="col">eurocream</th><th scope="col">eurocream, banana</th><th scope="col">nutela</th><th scope="col">nutela, banana</th></tr></thead>
-            <tbody>
+            <thead data-m="slatke-head"><tr><th scope="col"></th><th scope="col">eurocream</th><th scope="col">eurocream, banana</th><th scope="col">nutela</th><th scope="col">nutela, banana</th></tr></thead>
+            <tbody data-m="slatke-body">
 <tr><th scope="row">Samo krem</th><td class="num" data-v="210">210</td><td class="num na" aria-label="nema">-</td><td class="num" data-v="250">250</td><td class="num na" aria-label="nema">-</td></tr>
 <tr><th scope="row">Plazma</th><td class="num" data-v="230">230</td><td class="num" data-v="260">260</td><td class="num" data-v="270">270</td><td class="num" data-v="300">300</td></tr>
 <tr><th scope="row">Lešnik</th><td class="num" data-v="250">250</td><td class="num" data-v="280">280</td><td class="num" data-v="280">280</td><td class="num" data-v="310">310</td></tr>
@@ -421,7 +424,7 @@ footer nav a:hover{color:var(--ink)}
 <tr><th scope="row">Kikiriki</th><td class="num" data-v="230">230</td><td class="num" data-v="260">260</td><td class="num" data-v="270">270</td><td class="num" data-v="300">300</td></tr>
             </tbody>
           </table></div>
-          <div class="jam"><p><strong>Džem</strong><br><span>kajsija, šljiva, mešana marmelada, šipurak, jagoda</span></p><strong class="num">190</strong></div>
+          <div class="jam"><p><strong>Džem</strong><br><span data-m="dzem-opis">kajsija, šljiva, mešana marmelada, šipurak, jagoda</span></p><strong class="num" data-m="dzem-cena">190</strong></div>
         </div>
         <p class="drinks">Pića: <strong>Coca-Cola, Fanta, Schweppes, Sprite</strong>, 0,5 l i 1,5 l.</p>
       </div>
@@ -468,7 +471,78 @@ footer nav a:hover{color:var(--ink)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
 <script>
+var GMenu = (function(){
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function fmt(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+  function ok(v){ return typeof v === "number" && v > 0; }
+  var SIZES = [32, 42, 50];
+  function pizze(list){
+    return list.map(function(p, i){
+      var c = p.cene || [];
+      var attrs = SIZES.map(function(s, j){ return 'data-p' + s + '="' + (ok(c[j]) ? c[j] : "") + '"'; }).join(" ");
+      var first = ok(c[0]);
+      return '<li class="pz' + (first ? "" : " off") + '" ' + attrs + '><span class="pz-no">' + (i + 1) + '</span><div><h3>' + esc(p.naziv) + '</h3><p>' + esc(p.opis) + '</p></div><div class="pz-price"><strong class="pz-cur">' + (first ? fmt(c[0]) : "nema u 32 cm") + '</strong><span class="pz-unit">din</span></div></li>';
+    }).join("\n");
+  }
+  function cell(v){ return ok(v) ? fmt(v) : "-"; }
+  function plist(list){
+    var head = '<li class="head" aria-hidden="true"><span></span><span></span><span>mini</span><span>maxi</span></li>';
+    return head + "\n" + list.map(function(r, i){
+      return '<li><span class="li-no">' + (i + 1) + '</span><span class="li-t">' + esc(r.opis) + (r.posno ? ' <span class="posno">posno</span>' : "") + '</span><span class="num">' + cell(r.mini) + '</span><span class="num">' + cell(r.maxi) + '</span></li>';
+    }).join("\n");
+  }
+  function thead(cols){
+    return '<tr><th scope="col"></th>' + cols.map(function(c){ return '<th scope="col">' + esc(c) + '</th>'; }).join("") + '</tr>';
+  }
+  function tbody(t){
+    var n = t.kolone.length;
+    return t.stavke.map(function(r){
+      var tds = "";
+      for (var j = 0; j < n; j++){
+        var v = (r.cene || [])[j];
+        tds += ok(v) ? '<td class="num" data-v="' + v + '">' + fmt(v) + '</td>' : '<td class="num na" aria-label="nema">-</td>';
+      }
+      return '<tr><th scope="row">' + esc(r.naziv) + '</th>' + tds + '</tr>';
+    }).join("\n");
+  }
+  function sizeNote(list){
+    var miss = list.filter(function(p){ return ok((p.cene || [])[0]) && !ok((p.cene || [])[2]); }).map(function(p){ return esc(p.naziv); });
+    if (!miss.length) return "Sve pice pravimo u 32, 42 i 50 cm.";
+    var names = miss.length === 1 ? miss[0] : miss.slice(0, -1).join(", ") + " i " + miss[miss.length - 1];
+    return names + " pravimo u 32 i 42 cm.";
+  }
+  function parts(m){
+    return {
+      "pizze": pizze(m.pizze),
+      "size-note": sizeNote(m.pizze),
+      "pogace": plist(m.pogace),
+      "pogace-n": String(m.pogace.length + 1),
+      "lepinje": plist(m.lepinje),
+      "lepinje-n": String(m.lepinje.length + 1),
+      "tortilje": plist(m.tortilje),
+      "slane-head": thead(m.slane.kolone),
+      "slane-body": tbody(m.slane),
+      "slatke-head": thead(m.slatke.kolone),
+      "slatke-body": tbody(m.slatke),
+      "dzem-opis": esc(m.dzem.opis),
+      "dzem-cena": cell(m.dzem.cena)
+    };
+  }
+  function apply(m, root){
+    var p = parts(m);
+    [].forEach.call((root || document).querySelectorAll("[data-m]"), function(el){
+      var k = el.getAttribute("data-m");
+      if (k in p) el.innerHTML = p[k];
+    });
+  }
+  return {parts: parts, apply: apply, fmt: fmt};
+})();
+if (typeof module !== "undefined") module.exports = GMenu;
+
+</script>
+<script>
 (function(){
+function boot(){
   var fmt = function(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
   var hasG = !!window.gsap;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -513,7 +587,7 @@ footer nav a:hover{color:var(--ink)}
       var cur = row.querySelector(".pz-cur");
       var to = +row.getAttribute("data-p" + s);
       var from = +row.getAttribute("data-p" + prev) || to;
-      if (!to){ row.classList.add("off"); cur.textContent = "samo 32 i 42 cm"; return; }
+      if (!to){ row.classList.add("off"); cur.textContent = "nema u " + s + " cm"; return; }
       var wasOff = row.classList.contains("off");
       row.classList.remove("off");
       if (anim && !wasOff){
@@ -664,6 +738,19 @@ footer nav a:hover{color:var(--ink)}
       scrollTrigger: {trigger: ".phones", start: "top 85%", once: true}});
   });
   window.addEventListener("load", function(){ ScrollTrigger.refresh(); });
+}
+var started = false;
+function go(m){
+  if (started) return; started = true;
+  if (m){ try { GMenu.apply(m); } catch(e){} }
+  document.documentElement.classList.remove("pre");
+  boot();
+  if (document.readyState === "complete" && window.ScrollTrigger) ScrollTrigger.refresh();
+}
+if (window.fetch && /^https?:/.test(location.protocol)){
+  fetch("menu.json", {cache: "no-cache"}).then(function(r){ return r.ok ? r.json() : null; }).then(go, function(){ go(null); });
+  setTimeout(function(){ go(null); }, 1500);
+} else go(null);
 })();
 </script>
 
