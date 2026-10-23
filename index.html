@@ -29,7 +29,7 @@
   --green:#85c227; --red:#d9301c; --red-hover:#ea3d27; --yellow:#ffd400;
   --f-display:"Bricolage Grotesque", "Arial Narrow", Arial, sans-serif;
   --f-body:"Onest", Helvetica, Arial, sans-serif;
-  --r:14px; --nav-h:68px; --bar-h:0px; --head-h:calc(var(--nav-h) + var(--bar-h));
+  --r:14px; --nav-h:68px; --bar-h:0px; --head-h:calc(var(--nav-h) + var(--bar-h)); --deliv-h:60px;
   --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
   color-scheme:dark;
 }
@@ -59,6 +59,7 @@ p{margin:0}
 .nav .wrap{height:var(--nav-h); display:flex; align-items:center; gap:20px}
 .brand img{width:50px; height:50px}
 .nav .wrap ul{display:flex; gap:2px; list-style:none; margin:0 0 0 auto; padding:0}
+.nav .wrap > nav{margin-left:auto}
 .nav .wrap ul a{display:block; padding:8px 12px; text-decoration:none; font-weight:500; font-size:15px; color:var(--muted); border-radius:8px; transition:color .2s}
 .nav .wrap ul a:hover{color:var(--ink)}
 .nav .wrap ul a.on{color:var(--ink); background:var(--surface-2)}
@@ -107,6 +108,12 @@ p{margin:0}
 .delivery{background:var(--yellow); color:#111}
 .delivery .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 24px; padding-block:14px; font-weight:600}
 .delivery strong{font-family:var(--f-display); font-weight:800}
+/* Desktop: početna sekcija ispunjava prvi ekran, žuta traka je na njegovom dnu */
+@media (min-width:861px){
+  .hero{display:flex; align-items:center; min-height:calc(100vh - var(--head-h) - var(--deliv-h) - 1px); min-height:calc(100svh - var(--head-h) - var(--deliv-h) - 1px)}
+  .hero .wrap{width:100%; padding-block:40px}
+  .delivery .wrap{min-height:var(--deliv-h); align-items:center; padding-block:0}
+}
 
 /* Sekcije */
 .sec{padding-block:96px}
